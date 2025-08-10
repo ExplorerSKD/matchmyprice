@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#4361ee" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>MatchMyPrice - Smart Price Comparison</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #4895ef;
+      --accent: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --success: #4bb543;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.2s ease;
+      --tap-highlight: rgba(67, 97, 238, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: var(--tap-highlight);
+    }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: #f5f7ff;
+      color: var(--dark);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    .container {
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Styles */
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding-top: 1rem;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .logo-img {
+      height: 40px;
+      width: 40px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .logo {
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--gray);
+      max-width: 100%;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Search Section */
+    .search-section {
+      margin-bottom: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .search-card {
+      background: white;
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: var(--card-shadow);
+      width: 100%;
+      margin: 0 auto;
+      transition: var(--transition);
+      border: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    .input-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .form-select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      background-color: white;
+      transition: var(--transition);
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1em;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+    }
+
+    .search-box {
+      display: flex;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: var(--transition);
+    }
+
+    .search-box:focus-within {
+      box-shadow: 0 2px 12px rgba(67, 97, 238, 0.2);
+    }
+
+    .form-input {
+      flex: 1;
+      padding: 0.9rem 1rem;
+      border: 1px solid #e0e0e0;
+      border-right: none;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: var(--transition);
+      -webkit-appearance: none;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .search-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0 1.25rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.95rem;
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+    .search-button:active {
+      transform: scale(0.98);
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    }
+
+    /* Results Section */
+    .results-container {
+      background: white;
+      border-radius: 14px;
+      padding: 1.25rem;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(67, 97, 238, 0.1);
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: auto;
+      padding: 1.5rem 1rem 1rem;
+      color: var(--gray);
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Android-Specific Optimizations */
+    @media (hover: none) {
+      .search-button:hover {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+      }
+      
+      .search-card:hover {
+        transform: none;
+      }
+    }
+
+    /* Larger Mobile Devices */
+    @media (min-width: 400px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      .logo {
+        font-size: 2rem;
+      }
+      
+      .logo-img {
+        height: 45px;
+        width: 45px;
+      }
+      
+      .search-card {
+        padding: 1.75rem;
+      }
+    }
+
+    /* Tablets and Small Laptops */
+    @media (min-width: 768px) {
+      .container {
+        padding: 2rem;
+        max-width: 800px;
+      }
+      
+      .header {
+        margin-bottom: 2rem;
+      }
+      
+      .logo {
+        font-size: 2.25rem;
+      }
+      
+      .logo-img {
+        height: 50px;
+        width: 50px;
+      }
+      
+      .tagline {
+        font-size: 1.1rem;
+      }
+      
+      .search-card {
+        padding: 2rem;
+        border-radius: 16px;
+      }
+      
+      .form-select, .form-input {
+        padding: 1rem 1.25rem;
+      }
+      
+      .search-button {
+        padding: 0 1.75rem;
+      }
+    }
+
+    /* Large Screens */
+    @media (min-width: 1024px) {
+      .container {
+        max-width: 900px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="logo-container">
+        <img src="https://i.ibb.co/1YQWY2M1/IMG-20250419-WA0084.jpg" alt="MatchMyPrice Logo" class="logo-img" />
+        <h1 class="logo">MatchMyPrice</h1>
+      </div>
+      <p class="tagline">Compare prices across all major retailers and save money</p>
+    </header>
+
+    <main class="search-section">
+      <div class="search-card">
+        <div class="input-group">
+          <label for="category" class="input-label">
+            <i class="fas fa-tags" style="margin-right: 6px;"></i>
+            Product Category
+          </label>
+          <select id="category" class="form-select">
+            <option value="">All Categories</option>
+            <option value="mobile">📱 Mobile Phones</option>
+            <option value="laptop">💻 Laptops</option>
+            <option value="headphones">🎧 Headphones</option>
+            <option value="camera">📷 Cameras</option>
+            <option value="home">🏠 Home Appliances</option>
+            <option value="fashion">👕 Fashion</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="productInput" class="input-label">
+            <i class="fas fa-search" style="margin-right: 6px;"></i>
+            Product Name
+          </label>
+          <div class="search-box">
+            <input type="text" id="productInput" class="form-input" placeholder="e.g. iPhone 15, MacBook Pro..." />
+            <button onclick="comparePrices()" class="search-button" aria-label="Compare Prices">
+              <span class="button-text">Compare</span>
+              <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div id="results" class="results-container">
+      <!-- Results will appear here -->
+    </div>
+
+    <footer class="footer">
+      <p>
+        <i class="far fa-copyright"></i>
+        2023 MatchMyPrice | Save on every purchase
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Better touch feedback for Android
+    document.addEventListener('DOMContentLoaded', function() {
+      const buttons = document.querySelectorAll('button');
+      buttons.forEach(button => {
+        button.addEventListener('touchstart', function() {
+          this.classList.add('active');
+        });
+        button.addEventListener('touchend', function() {
+          this.classList.remove('active');
+        });
+      });
+      
+      // Prevent zooming on input focus
+      const inputs = document.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          document.querySelector('meta[name="viewport"]').content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        });
+        input.addEventListener('blur', function() {
+          document.querySelector('meta[name="viewport"]').content = 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes';
+        });
+      });
+    });
+    
+    function comparePrices() {
+      // Your price comparison logic here
+    }
+  </script>
+</body>
+</html>
